@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { TextInputProps } from 'types/Text.props';
 import { BaseInput } from 'components/BaseInput';
 
@@ -12,6 +12,7 @@ export class TextInput extends React.Component<TextInputProps, TextInputState> {
     value: this.props.value,
   };
 
+  // Add specific "rules"/"check" for TextInput here
   onChange = (value: string) => {
     this.setState({ value });
     this.props.onChange(value);

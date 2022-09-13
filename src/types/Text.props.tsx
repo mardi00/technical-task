@@ -9,6 +9,7 @@ export interface BaseInputProps {
 	placeholder: string;
 	type:  InputTypes[keyof InputTypes]
 	onChange: (value: any) => void;
+	error?: boolean;
 }
 
 export interface TextInputProps {

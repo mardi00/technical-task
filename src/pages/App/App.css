@@ -40,6 +40,16 @@
   transition: visibility 0s linear 0s, opacity 300ms;
 }
 
+.i-error {
+  border: solid 3px red;
+  outline: 'none';
+}
+
+.i-no-error {
+  border: solid 3px grey;
+  outline: 'none';
+}
+
 
 @keyframes App-logo-spin {
   from {

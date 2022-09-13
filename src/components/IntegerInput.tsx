@@ -1,29 +1,35 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { NumericInputProps } from 'types/Text.props';
 import { BaseInput } from 'components/BaseInput';
+import { isInt } from 'utils/numeric.utils';
 
 type IntegerInputState = {
   value: string;
+  error: boolean;
 };
 
+// TODO Improve by using generic class NumericInput?
 export class IntegerInput extends React.Component<NumericInputProps, IntegerInputState> {
 
   state: IntegerInputState = {
     value: this.props.value.toString(),
+    error: false,
   };
 
+  // Add specific "rules"/"check" for IntegerInput here
   onChange = (value: string) => {
     const { min, max } = this.props;
-    const result = value.replace(/(?!^-)[^0-9]/g, "")
-    if(min && Number(result) < min )return;
-    if(max && Number(result) > max) return;
-    this.setState({ value: result.toString() });
-    if(!isNaN(Number(result))) this.props.onChange(Number(result));
+    const isI = isInt(value);
+    let error = false;
+    if(!isI) error = true;
+    else if((min && parseFloat(value) < min) || (max && parseFloat(value) > max)) error = true;
+    else this.props.onChange(parseFloat(value));
+    this.setState({ value, error });
   }
 
   render() {
-    const { value } = this.state;
+    const { value , error } = this.state;
     const { placeholder } = this.props;
-    return (<BaseInput type='text' placeholder={placeholder} value={value} onChange={this.onChange} />);
+    return (<BaseInput type='text' placeholder={placeholder} value={value} onChange={this.onChange} error={error} />);
   }
 }

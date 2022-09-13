@@ -1,10 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { BaseInput } from './components/BaseInput';
-import { TextInput } from './components/TextInput';
-import { IntegerInput } from './components/IntegerInput';
-import { FloatInput } from './components/FloatInput';
+import { TextInput } from 'components/TextInput';
+import { IntegerInput } from 'components/IntegerInput';
+import { FloatInput } from 'components/FloatInput';
 
 function App() {
   return (

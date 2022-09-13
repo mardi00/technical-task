@@ -1,9 +1,20 @@
-import React, { useRef } from 'react';
-import { BaseInputProps, InputTypes } from 'types/Text.props';
+import React, { useEffect } from 'react';
+
+import { BaseInputProps } from 'types/Text.props';
 
 export const BaseInput: React.FC<BaseInputProps> = (props) => {
   const inputRef = React.createRef<HTMLInputElement>();
   const buttonRef = React.createRef<HTMLInputElement>();
+  let init = false;
+
+  useEffect(() => {
+    if(!init) {
+      init = true;
+      props.onChange(props.value)
+    }
+    if(props.error) showError();
+    else hideError();
+  }, [props.error]);
 
   const handleBaseInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(e.target.value !== '') {
@@ -16,7 +27,18 @@ export const BaseInput: React.FC<BaseInputProps> = (props) => {
 
   const handleBaseInputClear = () => {
     inputRef.current!.value = '';
+    props.onChange('');
     hideButton();
+  }
+
+  const showError = () => {
+    inputRef.current!.classList.remove('i-no-error');
+    inputRef.current!.classList.add('i-error');
+  }
+
+  const hideError = () => {
+    inputRef.current!.classList.remove('i-error');
+    inputRef.current!.classList.add('i-no-error');
   }
 
   const hideButton = () => {
@@ -37,44 +59,3 @@ export const BaseInput: React.FC<BaseInputProps> = (props) => {
   );
 
 }
-
-
-/*export class BaseInput extends React.Component<BaseInputProps> {
-
-  inputRef = React.createRef<HTMLInputElement>();
-  buttonRef = React.createRef<HTMLInputElement>();
-
-  handleBaseInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if(e.target.value.length > 0) {
-      this.showButton();
-    } else {
-      this.hideButton();
-    }
-    this.props.onChange(e.target.value);
-  }
-
-  handleBaseInputClear = () => {
-    this.inputRef.current!.value = '';
-    this.hideButton();
-  }
-
-  hideButton = () => {
-    this.buttonRef.current!.classList.remove('m-fadeIn');
-    this.buttonRef.current!.classList.add('m-fadeOut');
-  }
-
-  showButton = () => {
-    this.buttonRef.current!.classList.add('m-fadeIn');
-    this.buttonRef.current!.classList.remove('m-fadeOut');
-  }
-
-  render() {
-		const { placeholder, value } = this.props;
-    return (
-      <div>
-        <input ref={this.inputRef} value={value} placeholder={placeholder} onChange={this.handleBaseInputChange}/>
-        <input ref={this.buttonRef} type="button" value="X" onClick={this.handleBaseInputClear}/>
-      </div>
-    );
-  }
-}*/
